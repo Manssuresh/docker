@@ -1,2 +1,25 @@
-FROM httpd
-COPY index.html /usr/local/apache2/htdocs
+FROM alpine
+# Upgrade existing packages in the base image
+RUN apk --no-cache upgrade
+# Install apache from packages with out caching install files
+RUN apk add --no-cache apache2
+# Creat directory for apache2 to store PID file
+# RUN mkdir /run/apache2
+# Open port for httpd access
+EXPOSE 80
+# Run httpd in foreground so that the container does not quit
+# soon after start
+# To run this container in the back ground use the -d option
+#
+#     $ sudo docker run -d broadtech/alpine-:apache2
+#
+CMD ["-D","FOREGROUND"]
+
+# Start httpd when container runs
+ENTRYPOINT ["/usr/sbin/httpd"]
+
+WORKDIR /app
+RUN wget https://www.free-css.com/assets/files/free-css-templates/download/page292/simply-amazed.zip && unzip /app/simply-amazed.zip
+
+RUN cp -r /app/2123_simply_amazed/* /var/www/localhost/htdocs
+

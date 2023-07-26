@@ -1,0 +1,9 @@
+services:
+  frontend:
+    build:
+      context: .
+    container_name: frontend
+    image: 
+    dockerfile: 
+    ports:
+      - "80:80"
